@@ -1443,9 +1443,19 @@ body.game-active #soundToggle {
    No decorative image or audio files are required.
 ========================================= */
 .mode-symbol{
-  height:150px; display:flex; align-items:center; justify-content:center;
-  font-size:72px; color:#f7d982; background:linear-gradient(145deg,#102a43,#06101d);
+  width:100%;
+  min-height:160px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:72px;
+  color:#f7d982;
+  background:
+    radial-gradient(circle at center, rgba(29,77,115,.30), rgba(6,16,29,0) 56%),
+    linear-gradient(145deg,#102a43,#06101d);
   border-bottom:1px solid rgba(247,217,130,.22);
+  box-sizing:border-box;
 }
 .guide-symbol{
   width:92px; height:92px; display:flex; align-items:center; justify-content:center;
@@ -1461,6 +1471,29 @@ body.game-active #soundToggle {
   border:2px solid currentColor; box-shadow:0 0 28px rgba(56,189,248,.35);
 }
 #artifactVault,#artifactDrop,#soundToggle{display:none !important;}
+
+.mode-card-title,
+.mode-card-text{
+    width:100%;
+    box-sizing:border-box;
+}
+
+.mode-card-text{
+    margin-top:0;
+}
+
+@media(max-width:560px){
+  .mode-card{
+    grid-template-rows: 135px auto 1fr;
+    min-height: 250px !important;
+  }
+
+  .mode-symbol{
+    min-height:135px;
+    font-size:56px;
+  }
+}
+
 
 
 
@@ -1585,8 +1618,11 @@ body::after {
 }
 
 .mode-card {
-    min-height: 190px !important;
-    justify-content: center;
+    min-height: 330px !important;
+    display: grid !important;
+    grid-template-rows: 160px auto 1fr;
+    justify-content: stretch !important;
+    align-content: start;
 }
 
 #artifactVault,
