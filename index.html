@@ -1969,7 +1969,7 @@ Respect structure strictly.
 <!-- Start screen / player entry -->
 <div id="startScreen" style="display:flex;">
   <div class="start-content">
-    <h1 class="title">GAUNTLET LEARNING GAME</h1>
+    <h1 class="title">ADAPTIVE REVIEW LEARNING GAME</h1>
     <input id="emailInput" type="text" placeholder="Enter a display name" class="name-input">
     <button class="start-btn" onclick="showModeSelect()">ENTER THE GAME</button>
 	<button id="continueRunBtn" class="start-btn secondary-start-btn" onclick="continueSavedRun()" style="display:none;">
@@ -1980,31 +1980,31 @@ Respect structure strictly.
 <div id="modeSelectScreen" class="mode-select-screen" style="display:none;">
   <div class="mode-select-panel">
     <h1 class="mode-title">CHOOSE YOUR BATTLE</h1>
-    <p class="mode-subtitle">Select how you want to enter Gauntlet Learning Game.</p>
+    <p class="mode-subtitle">Select how you want to enter Adaptive Review Learning Game.</p>
 
     <div class="mode-grid">
 <button class="mode-card" onclick="startSelectedMode('standard')" aria-label="Standard Campaign. Full 30-room run with bosses, artifacts, setbacks, save and resume status, and realm progress.">
   <div class="mode-symbol" aria-hidden="true">▦</div>
   <span class="mode-card-title">Standard Campaign</span>
-  <span class="mode-card-text">Full 30-room run with bosses, artifacts, setbacks, and realm progress.</span>
+  <span class="mode-card-text">Full 30-room run with bosses, setbacks, and mastery progress.</span>
 </button>
 
 <button class="mode-card" onclick="startSelectedMode('timed')" aria-label="Timed Trial. Ten minute run with visible countdown, normal setbacks, rapid guessing penalties, and results saved separately.">
   <div class="mode-symbol" aria-hidden="true">◷</div>
  <span class="mode-card-title">Timed Trial</span>
-  <span class="mode-card-text">Ten minutes. Correct answers advance. Misses push you back.</span>
+  <span class="mode-card-text">Ten minutes timed trial. Correct answers advance. Misses push you back.</span>
 </button>
 
 <button class="mode-card" onclick="startSelectedMode('exam')" aria-label="Exam Drill. No bosses, no artifacts, no realm progress. Just adaptive practice.">
   <div class="mode-symbol" aria-hidden="true">✎</div>
  <span class="mode-card-title">Exam Drill</span>
-  <span class="mode-card-text">No bosses. No artifacts. No realm progress. Just adaptive practice.</span>
+  <span class="mode-card-text">No bosses. Just adaptive practice.</span>
 </button>
 
 <button class="mode-card" onclick="startSelectedMode('legendary')" aria-label="Legendary Mode. Full 30-room campaign using only mastery-level multi-step questions with close answer choices.">
   <div class="mode-symbol" aria-hidden="true">◆</div>
   <span class="mode-card-title">Legendary Mode</span>
-  <span class="mode-card-text">Full campaign. Legendary-only questions. Bosses still hit. No mercy.</span>
+  <span class="mode-card-text">Full campaign. Legendary-only questions. No mercy.</span>
 </button>
 
 <!-- SCORE ATTACK MODE ADDITION:
@@ -2046,7 +2046,7 @@ DO NOT REMOVE:
 ========================================= -->
 
 <div class="top-panel">
-    <div class="top-title">Gauntlet Learning Game</div>
+    <div class="top-title">Adaptive Review Learning Game</div>
 
     <div id="mazeTrackContainer">
         <div id="mazeTrack"></div>
