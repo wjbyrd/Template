@@ -58,7 +58,7 @@ If you break something:
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     
 <!-- Title can be changed to whatever the game needs -->
-<title>Gauntlet Learning Game Template</title>
+<title>Adaptive Review Learning Game</title>
    
 <style>
 /* =========================================
@@ -74,7 +74,7 @@ Do NOT rename IDs (#gameBox, #mazeTrack, etc.)
 or you will break JavaScript connections.
 ========================================= */
 /* =========================================
-   1. VISUAL DESIGN — GAUNTLET LEARNING GAME
+   1. VISUAL DESIGN — ADAPTIVE REVIEW LEARNING GAME
 ========================================= */
 html, body {
     width: 100%;
@@ -177,7 +177,7 @@ body {
 }
 	
 /* =========================================
-   9. ANIMATION SYSTEM — GAUNTLET LEARNING GAME
+   9. ANIMATION SYSTEM — ADAPTIVE REVIEW LEARNING GAME
 ========================================= */
 
 /* Ambient civic-light flicker */
@@ -328,7 +328,7 @@ body {
 }
 	
 /* =========================================
-   10. PANEL LAYOUT SYSTEM — GAUNTLET LEARNING GAME
+   10. PANEL LAYOUT SYSTEM — ADAPTIVE REVIEW LEARNING GAME
 ========================================= */
     
 /* Maze Tracker & Artifact Boxes */
@@ -459,7 +459,7 @@ body {
     
 
 /* =========================================
-   11. BOSS MODE (UI STATE OVERRIDES) — GAUNTLET LEARNING GAME
+   11. BOSS MODE (UI STATE OVERRIDES) — ADAPTIVE REVIEW LEARNING GAME
 ========================================= */
 
 /* Center layout when wizard is removed */
@@ -1085,7 +1085,7 @@ Every pixel matters.
 
 
 /* =========================================
-   14. SOUND ON/OFF — GAUNTLET LEARNING GAME
+   14. SOUND ON/OFF — ADAPTIVE REVIEW LEARNING GAME
 ========================================= */
 
 .sound-toggle{
@@ -1264,7 +1264,7 @@ body.game-active #soundToggle {
 		
 
 /* =========================================
-   15. POST-BATTLE MASTERY REPORT
+   15. POST-RUN MASTERY REPORT
    Student-facing diagnostic after a completed run.
 ========================================= */
 .mastery-report-screen{
@@ -1896,6 +1896,35 @@ body {
   #question { font-size: 18px; }
   #answers button, .answers button { font-size: 14px; }
 }
+
+
+/* =====================================================
+   BASE TEMPLATE LAYOUT: NO GUIDE PANEL
+   The original character panel has been removed. Guidance
+   remains in the feedback line beneath each question.
+===================================================== */
+#wizardBox {
+    display: none !important;
+}
+
+#gameShell {
+    max-width: 980px !important;
+}
+
+#gameBox {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.main-panel {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #gameShell {
+        max-width: 100% !important;
+    }
+}
 </style>
 </head>
 
@@ -1979,32 +2008,32 @@ Respect structure strictly.
 
 <div id="modeSelectScreen" class="mode-select-screen" style="display:none;">
   <div class="mode-select-panel">
-    <h1 class="mode-title">CHOOSE YOUR BATTLE</h1>
-    <p class="mode-subtitle">Select how you want to enter Adaptive Review Learning Game.</p>
+    <h1 class="mode-title">CHOOSE YOUR MODE</h1>
+    <p class="mode-subtitle">Select the review mode that fits your goal.</p>
 
     <div class="mode-grid">
-<button class="mode-card" onclick="startSelectedMode('standard')" aria-label="Standard Campaign. Full 30-room run with bosses, artifacts, setbacks, save and resume status, and realm progress.">
+<button class="mode-card" onclick="startSelectedMode('standard')" aria-label="Standard Campaign. Full 30-room adaptive review with three mastery checkpoints, setbacks, and save and resume support.">
   <div class="mode-symbol" aria-hidden="true">▦</div>
   <span class="mode-card-title">Standard Campaign</span>
-  <span class="mode-card-text">Full 30-room run with bosses, setbacks, and mastery progress.</span>
+  <span class="mode-card-text">Full 30-room adaptive review with three mastery checkpoints, setbacks, and saved progress.</span>
 </button>
 
 <button class="mode-card" onclick="startSelectedMode('timed')" aria-label="Timed Trial. Ten minute run with visible countdown, normal setbacks, rapid guessing penalties, and results saved separately.">
   <div class="mode-symbol" aria-hidden="true">◷</div>
  <span class="mode-card-title">Timed Trial</span>
-  <span class="mode-card-text">Ten minutes timed trial. Correct answers advance. Misses push you back.</span>
+  <span class="mode-card-text">Ten minutes. Correct answers advance. Misses push you back.</span>
 </button>
 
-<button class="mode-card" onclick="startSelectedMode('exam')" aria-label="Exam Drill. No bosses, no artifacts, no realm progress. Just adaptive practice.">
+<button class="mode-card" onclick="startSelectedMode('exam')" aria-label="Exam Drill. No mastery checkpoints or campaign progression. Just adaptive practice.">
   <div class="mode-symbol" aria-hidden="true">✎</div>
  <span class="mode-card-title">Exam Drill</span>
-  <span class="mode-card-text">No bosses. Just adaptive practice.</span>
+  <span class="mode-card-text">No mastery checkpoints or campaign progression. Just adaptive practice.</span>
 </button>
 
 <button class="mode-card" onclick="startSelectedMode('legendary')" aria-label="Legendary Mode. Full 30-room campaign using only mastery-level multi-step questions with close answer choices.">
   <div class="mode-symbol" aria-hidden="true">◆</div>
   <span class="mode-card-title">Legendary Mode</span>
-  <span class="mode-card-text">Full campaign. Legendary-only questions. No mercy.</span>
+  <span class="mode-card-text">Full campaign. Mastery-level questions. Checkpoints included. No mercy.</span>
 </button>
 
 <!-- SCORE ATTACK MODE ADDITION:
@@ -2024,7 +2053,7 @@ Respect structure strictly.
 
 <div class="dungeon-container">
     <button class="fullscreenBtn" onclick="goFullscreen()">FULLSCREEN</button>
-	<button id="returnMenuBtn" class="return-menu-btn" onclick="confirmReturnToModeMenu()">BATTLE MENU</button>
+	<button id="returnMenuBtn" class="return-menu-btn" onclick="confirmReturnToModeMenu()">MODE MENU</button>
 
 <!-- =========================================
 TOP PANEL (HUD)
@@ -2076,10 +2105,8 @@ DO NOT REMOVE:
 <!-- Main game area: Market Guide + question interface -->
 <div class="main-panel">
     <div id="gameShell">
-        <div id="wizardBox">
-            <div id="wizardName">Learning Guide</div>
-            <div id="wizardImage" class="guide-symbol" role="img" aria-label="Learning guide">◆</div>
-        </div>
+        <!-- Hidden compatibility target. The engine still references this ID for feedback animation. -->
+        <span id="wizardImage" aria-hidden="true" style="display:none;"></span>
 
         <!-- GAME -->
         <!-- Dynamic question + answer rendering (DO NOT rename IDs) -->
@@ -2122,7 +2149,7 @@ DO NOT REMOVE:
 
             <div id="answers"></div>
 
-            <!-- Artifact reward popup (triggered after boss victories) -->
+            <!-- Artifact reward popup (triggered after checkpoint completions) -->
             <div id="artifactDrop" style="display:none !important;">
                 <img id="artifactImage" width="96" alt="">
                 <h3 id="artifactTitle"></h3>
@@ -2910,7 +2937,7 @@ function inferObjective(question){
 // =============================================
 
 // =============================================
-    // GAUNTLET LEARNING GAME OBJECTIVE INFERENCE
+    // ADAPTIVE REVIEW LEARNING GAME OBJECTIVE INFERENCE
     // Chapters 1, 2, 4, 6
     // Tradeoffs, opportunity cost, marginal thinking,
     // incentives, models, PPF, markets, supply/demand,
@@ -3563,18 +3590,18 @@ function getRecoveryLine(stage){
   }
 
   if(stage === "bridge"){
-    return "Bridge Trial active. Apply the concept before the Gate lets you advance.";
+    return "Bridge Trial active. Apply the concept before the review lets you advance.";
   }
 
   if(stage === "retest"){
-    return "Retest Gate reopened. Same weakness. Less cover.";
+    return "Retest opened. Same weakness. Less cover.";
   }
 
   if(stage === "miss"){
     return "The signal is still unstable. Repair the weakness before advancing.";
   }
 
-  return "Recovery confirmed. Return to the Market Gate.";
+  return "Recovery confirmed. Return to the review path.";
 }
 
 function getQuestionsMatchingNeed(pool, objectiveKey, tag, excludeIds = [], skillKey = null){
@@ -3871,7 +3898,7 @@ function getAdaptiveQuestion(poolName, targetTag = null, options = {}){
 // Controls delay timing (in milliseconds) for game events.
 //
 // - normal  → standard transitions between questions
-// - boss    → faster pacing during boss encounters
+// - boss    → faster pacing during mastery checkpoints
 // - detour  → slightly longer for concept recovery moments
 //
 // SAFE TO EDIT:
@@ -3894,10 +3921,10 @@ const TIMING = {
 };
 
 // =============================================
-// BOSSES & REWARDS — SAFE TO CUSTOMIZE
+// MASTERY CHECKPOINTS — SAFE TO CUSTOMIZE
 // =============================================
 // You can change:
-// - boss names
+// - checkpoint names
 // - images
 // - artifact rewards
 // - lore text
@@ -3923,40 +3950,40 @@ const artifacts = {
 };
 
 function getMarketGateBossName(){
-  if(room === 10) return "Frontier Keeper";
-  if(room === 20) return "Signal Broker";
-  if(room === 30) return "Price Magistrate";
-  return "The Gate";
+  if(room === 10) return "Checkpoint 1";
+  if(room === 20) return "Checkpoint 2";
+  if(room === 30) return "Final Checkpoint";
+  return "Mastery Checkpoint";
 }
 
 function getMarketGateBossLine({ isCorrect, tag, type, objective, streak, bossHealth, responseTime }) {
-  const bossName = getMarketGateBossName();
+  const checkpointName = getMarketGateBossName();
 
   if(isCorrect && streak >= 5){
-    return `${bossName}: Your streak rises. Now let’s see if your reasoning survives pressure.`;
+    return `${checkpointName}: Streak maintained. Apply the concept under pressure.`;
   }
 
   if(isCorrect && bossHealth <= 2){
-    return `${bossName}: Clean strike. The signal weakens.`;
+    return `${checkpointName}: Correct. One checkpoint item cleared.`;
   }
 
   if(!isCorrect && responseTime < 5000){
-    return `${bossName}: Fast is not fluent. Read the signal.`;
+    return `${checkpointName}: Fast is not fluent. Read carefully.`;
   }
 
   if(!isCorrect && (type === "graph" || type === "graph-integration")){
-    return `${bossName}: The curve moved. You didn’t.`;
+    return `${checkpointName}: The curve moved. Your reasoning did not.`;
   }
 
   if(!isCorrect && tag){
-    return `${bossName}: The weakness is visible: ${tag}. The Gate will test it again.`;
+    return `${checkpointName}: This concept needs work: ${tag}. It will be tested again.`;
   }
 
   if(isCorrect){
-    return `${bossName}: Correct. But one answer does not restore the market.`;
+    return `${checkpointName}: Correct. Continue through the checkpoint.`;
   }
 
-  return `${bossName}: The checkpoint holds. Try again.`;
+  return `${checkpointName}: The checkpoint remains uncleared. Try again.`;
 }
   
 // =============================================
@@ -4037,7 +4064,7 @@ function startSelectedMode(mode){
 
 function confirmReturnToModeMenu(){
     showGameModal({
-        title: "Return to Battle Menu?",
+        title: "Return to Mode Menu?",
         text: "Standard Campaign progress will be saved. Timed Trial, Exam Drill, and Score Attack attempts will end.",
         confirmText: "Return",
         cancelText: "Stay",
@@ -4219,7 +4246,7 @@ if(modeAllowsRealmProgress()){
 	
 sendGameData({
     runID: runID,
-    game: "Gauntlet Learning Game",
+    game: "Adaptive Review Learning Game",
     event: hasSavedRun ? "resume" : "start",
     user: username,
     email: studentEmail
@@ -4464,7 +4491,7 @@ function endTimedModeRun(){
 
     sendGameData({
         runID: runID,
-        game: "Gauntlet Learning Game",
+        game: "Adaptive Review Learning Game",
         event: "timed_complete",
         user: username,
         email: studentEmail,
@@ -4506,7 +4533,7 @@ function endTimedModeRun(){
     document.getElementById("answers").innerHTML = `
         <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
         <button class="continue-btn" onclick="restartTimedMode()">Retry Timed Trial</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Battle</button>
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Mode</button>
     `;
 
     document.getElementById("message").innerText = "The trial ends. The market remembers.";
@@ -4597,13 +4624,12 @@ document.getElementById("emailInput").addEventListener("keypress", function(even
 // This affects UI only, not game logic.
 // =============================================
 function getAreaName(r) {
-    if (r <= 9) return "The Frontier Arcade";
-    if (r === 10) return "The Keeper’s Reliquary";
-    if (r <= 19) return "The Signal Bazaar";
-    if (r === 20) return "The Broker’s Exchange";
-    if (r <= 25) return "The Equilibrium Walk";
-    if (r <= 29) return "The Decree Arcade";
-    return "The Magistrate’s Tribunal";
+    if (r <= 9) return "Foundation Review";
+    if (r === 10) return "Mastery Checkpoint 1";
+    if (r <= 19) return "Applied Review";
+    if (r === 20) return "Mastery Checkpoint 2";
+    if (r <= 29) return "Advanced Review";
+    return "Final Mastery Checkpoint";
 }
 	 
 // =============================================
@@ -4920,73 +4946,73 @@ legendaryBoss: [
 ],
 easyBoss: [
   // --- OPPORTUNITY COST ---
-  { id: 2000, q: "The Frontier Keeper opens the first gate: 'Every choice has a shadow.' What is opportunity cost?", options: ["The value of the next best alternative given up", "Only the money price paid", "The total amount spent on all choices", "The legal maximum price"], a: 0, tag: "opportunity_cost", type: "definition", objective: "LO1.2", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "opportunity_cost_definition", secondarySkills: ["tradeoff_identification"], repairSkill: "opportunity_cost_definition", commonError: "treats_opportunity_cost_as_only_money_cost", feedback: "Opportunity cost is the value of the next best alternative given up." },
-  { id: 2001, q: "The Frontier Keeper offers two paths: earn $90 working or attend a free review session. If the student attends the review, what is part of the opportunity cost?", options: ["The $90 in forgone wages", "Nothing because the session is free", "Only the time spent walking there", "The equilibrium price of tutoring"], a: 0, tag: "opportunity_cost", type: "interpretation", objective: "LO1.2", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "opportunity_cost_identification", secondarySkills: ["opportunity_cost_definition"], repairSkill: "opportunity_cost_definition", commonError: "ignores_forgone_alternative", feedback: "A free activity can still have an opportunity cost if it means giving up another valuable option." },
-  { id: 2002, q: "The Frontier Keeper gives three choices: work for $80, study for a test worth $60, or attend a free concert. If the student chooses the concert, what is the opportunity cost?", options: ["$80", "$140", "$60", "$0 because the concert is free"], a: 0, tag: "opportunity_cost", type: "trap", objective: "LO1.2", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "next_best_alternative", secondarySkills: ["opportunity_cost_definition"], repairSkill: "opportunity_cost_definition", commonError: "adds_all_forgone_options_instead_of_next_best", feedback: "Opportunity cost is the value of the next best alternative, not every alternative added together. The next best option is the $80 shift." },
+  { id: 2000, q: "Checkpoint 1 opens the first gate: 'Every choice has a shadow.' What is opportunity cost?", options: ["The value of the next best alternative given up", "Only the money price paid", "The total amount spent on all choices", "The legal maximum price"], a: 0, tag: "opportunity_cost", type: "definition", objective: "LO1.2", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "opportunity_cost_definition", secondarySkills: ["tradeoff_identification"], repairSkill: "opportunity_cost_definition", commonError: "treats_opportunity_cost_as_only_money_cost", feedback: "Opportunity cost is the value of the next best alternative given up." },
+  { id: 2001, q: "Checkpoint 1 offers two paths: earn $90 working or attend a free review session. If the student attends the review, what is part of the opportunity cost?", options: ["The $90 in forgone wages", "Nothing because the session is free", "Only the time spent walking there", "The equilibrium price of tutoring"], a: 0, tag: "opportunity_cost", type: "interpretation", objective: "LO1.2", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "opportunity_cost_identification", secondarySkills: ["opportunity_cost_definition"], repairSkill: "opportunity_cost_definition", commonError: "ignores_forgone_alternative", feedback: "A free activity can still have an opportunity cost if it means giving up another valuable option." },
+  { id: 2002, q: "Checkpoint 1 gives three choices: work for $80, study for a test worth $60, or attend a free concert. If the student chooses the concert, what is the opportunity cost?", options: ["$80", "$140", "$60", "$0 because the concert is free"], a: 0, tag: "opportunity_cost", type: "trap", objective: "LO1.2", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "next_best_alternative", secondarySkills: ["opportunity_cost_definition"], repairSkill: "opportunity_cost_definition", commonError: "adds_all_forgone_options_instead_of_next_best", feedback: "Opportunity cost is the value of the next best alternative, not every alternative added together. The next best option is the $80 shift." },
 
   // --- MARGINAL REASONING ---
-  { id: 2003, q: "The Frontier Keeper says: 'Do not ask what was already spent. Ask what changes next.' What principle is he using?", options: ["Marginal reasoning", "Tax incidence", "A price ceiling", "Circular flow"], a: 0, tag: "marginal", type: "definition", objective: "LO1.3", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "marginal_reasoning_identification", secondarySkills: ["marginal_benefit_cost_rule"], repairSkill: "marginal_benefit_cost_decision", commonError: "focuses_on_total_or_sunk_cost_instead_of_extra_cost", feedback: "Marginal reasoning compares the extra benefit and extra cost of the next action." },
+  { id: 2003, q: "Checkpoint 1 says: 'Do not ask what was already spent. Ask what changes next.' What principle is he using?", options: ["Marginal reasoning", "Tax incidence", "A price ceiling", "Circular flow"], a: 0, tag: "marginal", type: "definition", objective: "LO1.3", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "marginal_reasoning_identification", secondarySkills: ["marginal_benefit_cost_rule"], repairSkill: "marginal_benefit_cost_decision", commonError: "focuses_on_total_or_sunk_cost_instead_of_extra_cost", feedback: "Marginal reasoning compares the extra benefit and extra cost of the next action." },
   { id: 2004, q: "A trader gains 30 tokens from one more deal, but the deal costs 18 tokens to complete. What should the trader do?", options: ["Take the deal because marginal benefit exceeds marginal cost", "Reject the deal because any cost is bad", "Take the deal only if there is no opportunity cost", "Reject the deal because total cost matters most"], a: 0, tag: "marginal", type: "interpretation", objective: "LO1.3", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "marginal_benefit_cost_decision", secondarySkills: ["basic_net_benefit"], repairSkill: "marginal_benefit_cost_decision", commonError: "gets_mb_mc_rule_backwards", feedback: "The marginal benefit is 30 and the marginal cost is 18, so the net gain is positive." },
   { id: 2005, q: "A vendor already spent 100 tokens setting up a stall. Staying open one more hour costs 12 tokens and brings in 20 tokens. What should matter now?", options: ["The extra 12-token cost and extra 20-token benefit", "The full 112 tokens spent", "Only the original 100-token setup cost", "Only whether the stall looks impressive"], a: 0, tag: "marginal", type: "trap", objective: "LO1.3", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "sunk_cost_avoidance", secondarySkills: ["marginal_benefit_cost_decision"], repairSkill: "marginal_benefit_cost_decision", commonError: "includes_sunk_cost_in_marginal_decision", feedback: "The setup cost is sunk. The current decision compares the extra cost and extra benefit of staying open." },
 
   // --- INCENTIVES ---
-  { id: 2006, q: "The Frontier Keeper warns: 'A reward changes the route.' What is an incentive?", options: ["Something that induces people to act", "A legal minimum price", "A point outside the PPF", "A tax paid only by sellers"], a: 0, tag: "incentives", type: "definition", objective: "LO1.4", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "incentive_definition", secondarySkills: ["behavior_response_to_incentives"], repairSkill: "incentive_definition", commonError: "confuses_incentive_with_policy_result", feedback: "An incentive is a reward or punishment that affects behavior." },
+  { id: 2006, q: "Checkpoint 1 warns: 'A reward changes the route.' What is an incentive?", options: ["Something that induces people to act", "A legal minimum price", "A point outside the PPF", "A tax paid only by sellers"], a: 0, tag: "incentives", type: "definition", objective: "LO1.4", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "incentive_definition", secondarySkills: ["behavior_response_to_incentives"], repairSkill: "incentive_definition", commonError: "confuses_incentive_with_policy_result", feedback: "An incentive is a reward or punishment that affects behavior." },
   { id: 2007, q: "A toll is added to a crowded bridge, and some drivers switch routes. What principle does this show?", options: ["People respond to incentives", "Scarcity has disappeared", "The PPF shifted outward", "A price floor created a surplus"], a: 0, tag: "incentives", type: "interpretation", objective: "LO1.4", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "behavior_response_to_incentives", secondarySkills: ["opportunity_cost_identification"], repairSkill: "incentive_definition", commonError: "misses_cost_as_incentive", feedback: "The toll raises the cost of using the bridge, so drivers have an incentive to change behavior." },
-  { id: 2008, q: "A speed bonus makes workers finish faster, but quality falls. What is the Frontier Keeper testing?", options: ["Incentives can create unintended consequences", "Trade eliminates opportunity cost", "A point outside the PPF is efficient", "A price ceiling creates a surplus"], a: 0, tag: "incentives", type: "trap", objective: "LO1.4", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "incentives_unintended_consequences", secondarySkills: ["behavior_response_to_incentives"], repairSkill: "incentive_definition", commonError: "assumes_incentives_only_create_intended_results", feedback: "People respond to incentives, but they may respond in ways that improve the metric while hurting the real goal." },
+  { id: 2008, q: "A speed bonus makes workers finish faster, but quality falls. What is the Checkpoint 1 testing?", options: ["Incentives can create unintended consequences", "Trade eliminates opportunity cost", "A point outside the PPF is efficient", "A price ceiling creates a surplus"], a: 0, tag: "incentives", type: "trap", objective: "LO1.4", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "incentives_unintended_consequences", secondarySkills: ["behavior_response_to_incentives"], repairSkill: "incentive_definition", commonError: "assumes_incentives_only_create_intended_results", feedback: "People respond to incentives, but they may respond in ways that improve the metric while hurting the real goal." },
 
   // --- PPF ---
-  { id: 2009, q: "The Frontier Keeper points to the frontier: 'This curve shows what can be made with what you have.' What does a PPF show?", options: ["The combinations of two goods an economy can produce with current resources and technology", "The legal maximum price in a market", "The amount of tax paid by buyers", "The demand curve for one product"], a: 0, tag: "ppf", type: "definition", objective: "LO2.2", difficulty: "easyBoss", conceptCluster: "economic_models", primarySkill: "ppf_definition", secondarySkills: ["attainable_unattainable"], repairSkill: "ppf_definition", commonError: "confuses_ppf_with_market_curve", feedback: "A PPF shows possible production combinations given current resources and technology." },
-  { id: 2010, q: "The Frontier Keeper points inside the PPF: 'Possible, but sloppy.' What does a point inside the PPF mean?", options: ["Attainable but inefficient", "Unattainable", "Efficient", "A binding price ceiling"], a: 0, tag: "ppf", type: "interpretation", objective: "LO2.2", difficulty: "easyBoss", conceptCluster: "economic_models", primarySkill: "ppf_efficiency_status", secondarySkills: ["attainable_unattainable"], repairSkill: "ppf_efficiency_status", commonError: "confuses_inside_ppf_with_unattainable", feedback: "A point inside the PPF is attainable, but resources are not being used efficiently." },
+  { id: 2009, q: "Checkpoint 1 points to the frontier: 'This curve shows what can be made with what you have.' What does a PPF show?", options: ["The combinations of two goods an economy can produce with current resources and technology", "The legal maximum price in a market", "The amount of tax paid by buyers", "The demand curve for one product"], a: 0, tag: "ppf", type: "definition", objective: "LO2.2", difficulty: "easyBoss", conceptCluster: "economic_models", primarySkill: "ppf_definition", secondarySkills: ["attainable_unattainable"], repairSkill: "ppf_definition", commonError: "confuses_ppf_with_market_curve", feedback: "A PPF shows possible production combinations given current resources and technology." },
+  { id: 2010, q: "Checkpoint 1 points inside the PPF: 'Possible, but sloppy.' What does a point inside the PPF mean?", options: ["Attainable but inefficient", "Unattainable", "Efficient", "A binding price ceiling"], a: 0, tag: "ppf", type: "interpretation", objective: "LO2.2", difficulty: "easyBoss", conceptCluster: "economic_models", primarySkill: "ppf_efficiency_status", secondarySkills: ["attainable_unattainable"], repairSkill: "ppf_efficiency_status", commonError: "confuses_inside_ppf_with_unattainable", feedback: "A point inside the PPF is attainable, but resources are not being used efficiently." },
   { id: 2011, q: "A PPF move gives up 12 units of Good Y to gain 4 units of Good X. What is the opportunity cost per Good X?", options: ["3 units of Good Y", "4 units of Good Y", "12 units of Good Y", "48 units of Good Y"], a: 0, tag: "ppf", type: "trap", objective: "LO2.2", difficulty: "easyBoss", conceptCluster: "economic_models", primarySkill: "ppf_opportunity_cost", secondarySkills: ["opportunity_cost_calculation"], repairSkill: "ppf_opportunity_cost", commonError: "divides_gain_by_loss_instead_of_loss_by_gain", feedback: "Opportunity cost per Good X is what is given up divided by what is gained: 12 / 4 = 3." },
 
   // --- POSITIVE / NORMATIVE ---
-  { id: 2012, q: "The Frontier Keeper asks: 'What is a positive statement?'", options: ["A testable claim about how the world is", "A claim about how the world should be", "A statement that is always morally good", "A policy recommendation"], a: 0, tag: "positive_normative", type: "definition", objective: "LO2.4", difficulty: "easyBoss", conceptCluster: "economic_thinking", primarySkill: "positive_statement_definition", secondarySkills: ["positive_vs_normative"], repairSkill: "positive_vs_normative", commonError: "confuses_positive_with_good_or_approval", feedback: "A positive statement describes or predicts how the world is." },
-  { id: 2013, q: "The Frontier Keeper gives this claim: 'A price ceiling below equilibrium creates a shortage.' What kind of statement is this?", options: ["Positive", "Normative", "A value judgment", "A policy recommendation"], a: 0, tag: "positive_normative", type: "interpretation", objective: "LO2.4", difficulty: "easyBoss", conceptCluster: "economic_thinking", primarySkill: "positive_vs_normative", secondarySkills: ["policy_statement_classification"], repairSkill: "positive_vs_normative", commonError: "assumes_policy_topic_means_normative", feedback: "This is positive because it is a testable cause-and-effect claim." },
-  { id: 2014, q: "The Frontier Keeper gives two claims. Claim 1: 'Rent control reduces housing supply.' Claim 2: 'The city should use rent control anyway.' Which pairing is correct?", options: ["Claim 1 is positive; Claim 2 is normative", "Claim 1 is normative; Claim 2 is positive", "Both claims are positive", "Both claims are normative"], a: 0, tag: "positive_normative", type: "trap", objective: "LO2.4", difficulty: "easyBoss", conceptCluster: "economic_thinking", primarySkill: "positive_normative_pairing", secondarySkills: ["policy_statement_classification"], repairSkill: "positive_vs_normative", commonError: "treats_all_policy_claims_as_normative", feedback: "The first claim is testable. The second claim recommends what should happen, so it is normative." },
+  { id: 2012, q: "Checkpoint 1 asks: 'What is a positive statement?'", options: ["A testable claim about how the world is", "A claim about how the world should be", "A statement that is always morally good", "A policy recommendation"], a: 0, tag: "positive_normative", type: "definition", objective: "LO2.4", difficulty: "easyBoss", conceptCluster: "economic_thinking", primarySkill: "positive_statement_definition", secondarySkills: ["positive_vs_normative"], repairSkill: "positive_vs_normative", commonError: "confuses_positive_with_good_or_approval", feedback: "A positive statement describes or predicts how the world is." },
+  { id: 2013, q: "Checkpoint 1 gives this claim: 'A price ceiling below equilibrium creates a shortage.' What kind of statement is this?", options: ["Positive", "Normative", "A value judgment", "A policy recommendation"], a: 0, tag: "positive_normative", type: "interpretation", objective: "LO2.4", difficulty: "easyBoss", conceptCluster: "economic_thinking", primarySkill: "positive_vs_normative", secondarySkills: ["policy_statement_classification"], repairSkill: "positive_vs_normative", commonError: "assumes_policy_topic_means_normative", feedback: "This is positive because it is a testable cause-and-effect claim." },
+  { id: 2014, q: "Checkpoint 1 gives two claims. Claim 1: 'Rent control reduces housing supply.' Claim 2: 'The city should use rent control anyway.' Which pairing is correct?", options: ["Claim 1 is positive; Claim 2 is normative", "Claim 1 is normative; Claim 2 is positive", "Both claims are positive", "Both claims are normative"], a: 0, tag: "positive_normative", type: "trap", objective: "LO2.4", difficulty: "easyBoss", conceptCluster: "economic_thinking", primarySkill: "positive_normative_pairing", secondarySkills: ["policy_statement_classification"], repairSkill: "positive_vs_normative", commonError: "treats_all_policy_claims_as_normative", feedback: "The first claim is testable. The second claim recommends what should happen, so it is normative." },
 
   // --- MARKET FAILURE ---
-  { id: 2015, q: "The Frontier Keeper says: 'Markets are powerful, not perfect.' What is market failure?", options: ["A situation where the market fails to allocate resources efficiently", "Any situation where prices change", "Any voluntary trade between buyers and sellers", "A point on the PPF"], a: 0, tag: "market_failure", type: "definition", objective: "LO1.6", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "market_failure_definition", secondarySkills: ["market_failure_types"], repairSkill: "market_failure_types", commonError: "thinks_any_bad_outcome_is_market_failure", feedback: "Market failure occurs when the market does not allocate resources efficiently." },
+  { id: 2015, q: "Checkpoint 1 says: 'Markets are powerful, not perfect.' What is market failure?", options: ["A situation where the market fails to allocate resources efficiently", "Any situation where prices change", "Any voluntary trade between buyers and sellers", "A point on the PPF"], a: 0, tag: "market_failure", type: "definition", objective: "LO1.6", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "market_failure_definition", secondarySkills: ["market_failure_types"], repairSkill: "market_failure_types", commonError: "thinks_any_bad_outcome_is_market_failure", feedback: "Market failure occurs when the market does not allocate resources efficiently." },
   { id: 2016, q: "A factory pollutes a river used by nearby residents. What kind of market failure is this?", options: ["A negative externality", "A public good", "A price floor", "A positive statement"], a: 0, tag: "market_failure", type: "interpretation", objective: "LO1.6", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "externality_identification", secondarySkills: ["market_failure_types"], repairSkill: "market_failure_types", commonError: "confuses_externality_with_private_cost", feedback: "Pollution harms bystanders who are not part of the transaction, so it is a negative externality." },
-  { id: 2017, q: "The Frontier Keeper gives the final trap: which case is not automatically a market failure?", options: ["A buyer voluntarily pays a high price for coffee", "A factory pollutes a river", "A seller has market power", "A public good is underprovided"], a: 0, tag: "market_failure", type: "trap", objective: "LO1.6", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "market_failure_identification", secondarySkills: ["market_failure_types"], repairSkill: "market_failure_types", commonError: "treats_high_price_as_market_failure_by_itself", feedback: "A high voluntary price is not automatically a market failure. Externalities, public goods, and market power are stronger market-failure cases." }
+  { id: 2017, q: "Checkpoint 1 gives the final trap: which case is not automatically a market failure?", options: ["A buyer voluntarily pays a high price for coffee", "A factory pollutes a river", "A seller has market power", "A public good is underprovided"], a: 0, tag: "market_failure", type: "trap", objective: "LO1.6", difficulty: "easyBoss", conceptCluster: "core_principles", primarySkill: "market_failure_identification", secondarySkills: ["market_failure_types"], repairSkill: "market_failure_types", commonError: "treats_high_price_as_market_failure_by_itself", feedback: "A high voluntary price is not automatically a market failure. Externalities, public goods, and market power are stronger market-failure cases." }
 ],
    
 mediumBoss: [
   // --- COMPETITIVE MARKETS ---
-  { id: 3000, q: "The Broker opens the exchange floor: 'No single trader owns the price.' What defines a competitive market?", options: ["Many buyers and sellers with little individual influence over price", "One seller setting the market price", "A government agency assigning every trade", "A market where scarcity no longer exists"], a: 0, tag: "competitive_market", type: "definition", objective: "LO4.1", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "competitive_market_definition", secondarySkills: ["price_taker_definition"], repairSkill: "competitive_market_definition", commonError: "confuses_competitive_market_with_one_dominant_seller", feedback: "A competitive market has many buyers and sellers, so each participant has little control over the market price." },
-  { id: 3001, q: "The Broker points to a wheat farmer selling at the going market price. Why is the farmer a price taker?", options: ["The farmer's individual output is too small to control the market price", "The farmer legally sets the national wheat price", "The farmer faces no competitors", "The farmer can ignore supply and demand"], a: 0, tag: "competitive_market", type: "interpretation", objective: "LO4.1", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "price_taker_definition", secondarySkills: ["competitive_market_definition"], repairSkill: "competitive_market_definition", commonError: "confuses_price_taker_with_price_maker", feedback: "A price taker accepts the market price because no single seller has enough influence to set it." },
-  { id: 3002, q: "The Broker sets the trap: a market has many buyers but one seller with control over price. Is this a competitive market?", options: ["No, because one seller has market power", "Yes, because many buyers are enough", "Yes, because all markets are competitive", "No, because buyers never matter"], a: 0, tag: "competitive_market", type: "trap", objective: "LO4.1", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "competitive_market_definition", secondarySkills: ["market_power_definition"], repairSkill: "competitive_market_definition", commonError: "thinks_many_buyers_alone_make_market_competitive", feedback: "A competitive market requires many buyers and sellers, with no single participant controlling price." },
+  { id: 3000, q: "Checkpoint 2 opens the exchange floor: 'No single trader owns the price.' What defines a competitive market?", options: ["Many buyers and sellers with little individual influence over price", "One seller setting the market price", "A government agency assigning every trade", "A market where scarcity no longer exists"], a: 0, tag: "competitive_market", type: "definition", objective: "LO4.1", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "competitive_market_definition", secondarySkills: ["price_taker_definition"], repairSkill: "competitive_market_definition", commonError: "confuses_competitive_market_with_one_dominant_seller", feedback: "A competitive market has many buyers and sellers, so each participant has little control over the market price." },
+  { id: 3001, q: "Checkpoint 2 points to a wheat farmer selling at the going market price. Why is the farmer a price taker?", options: ["The farmer's individual output is too small to control the market price", "The farmer legally sets the national wheat price", "The farmer faces no competitors", "The farmer can ignore supply and demand"], a: 0, tag: "competitive_market", type: "interpretation", objective: "LO4.1", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "price_taker_definition", secondarySkills: ["competitive_market_definition"], repairSkill: "competitive_market_definition", commonError: "confuses_price_taker_with_price_maker", feedback: "A price taker accepts the market price because no single seller has enough influence to set it." },
+  { id: 3002, q: "Checkpoint 2 sets the trap: a market has many buyers but one seller with control over price. Is this a competitive market?", options: ["No, because one seller has market power", "Yes, because many buyers are enough", "Yes, because all markets are competitive", "No, because buyers never matter"], a: 0, tag: "competitive_market", type: "trap", objective: "LO4.1", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "competitive_market_definition", secondarySkills: ["market_power_definition"], repairSkill: "competitive_market_definition", commonError: "thinks_many_buyers_alone_make_market_competitive", feedback: "A competitive market requires many buyers and sellers, with no single participant controlling price." },
 
   // --- DEMAND ---
-  { id: 3003, q: "The Broker taps the demand schedule: 'Price changes the amount buyers choose.' What does the law of demand say?", options: ["As price falls, quantity demanded rises", "As price falls, demand shifts left", "As price rises, quantity demanded rises", "As supply rises, demand must rise"], a: 0, tag: "demand", type: "definition", objective: "LO4.2", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "law_of_demand", secondarySkills: ["movement_vs_demand_shift"], repairSkill: "law_of_demand", commonError: "confuses_quantity_demanded_with_demand_shift", feedback: "The law of demand says price and quantity demanded move in opposite directions." },
+  { id: 3003, q: "Checkpoint 2 taps the demand schedule: 'Price changes the amount buyers choose.' What does the law of demand say?", options: ["As price falls, quantity demanded rises", "As price falls, demand shifts left", "As price rises, quantity demanded rises", "As supply rises, demand must rise"], a: 0, tag: "demand", type: "definition", objective: "LO4.2", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "law_of_demand", secondarySkills: ["movement_vs_demand_shift"], repairSkill: "law_of_demand", commonError: "confuses_quantity_demanded_with_demand_shift", feedback: "The law of demand says price and quantity demanded move in opposite directions." },
   { id: 3004, q: "The price of coffee falls, and buyers purchase more coffee. What is the most precise statement?", options: ["Quantity demanded increases", "Demand increases", "Supply decreases", "Demand shifts right"], a: 0, tag: "demand", type: "interpretation", objective: "LO4.2", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "movement_vs_demand_shift", secondarySkills: ["law_of_demand"], repairSkill: "movement_vs_demand_shift", commonError: "treats_own_price_change_as_demand_shift", feedback: "A change in coffee's own price causes movement along the demand curve, so quantity demanded changes." },
-  { id: 3005, q: "The Broker sets the trap: consumer income rises and tablets are a normal good. What happens?", options: ["Demand for tablets increases", "Quantity demanded increases because tablet price changed", "Supply of tablets increases", "Demand for tablets decreases"], a: 0, tag: "demand", type: "trap", objective: "LO4.2", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "demand_shifters_income", secondarySkills: ["movement_vs_demand_shift"], repairSkill: "demand_shifters", commonError: "confuses_income_change_with_movement_along_demand", feedback: "Income is a demand shifter. For a normal good, higher income increases demand." },
+  { id: 3005, q: "Checkpoint 2 sets the trap: consumer income rises and tablets are a normal good. What happens?", options: ["Demand for tablets increases", "Quantity demanded increases because tablet price changed", "Supply of tablets increases", "Demand for tablets decreases"], a: 0, tag: "demand", type: "trap", objective: "LO4.2", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "demand_shifters_income", secondarySkills: ["movement_vs_demand_shift"], repairSkill: "demand_shifters", commonError: "confuses_income_change_with_movement_along_demand", feedback: "Income is a demand shifter. For a normal good, higher income increases demand." },
 
   // --- SUPPLY ---
-  { id: 3006, q: "The Broker turns to the sellers: 'Higher prices pull more goods onto the floor.' What does the law of supply say?", options: ["As price rises, quantity supplied rises", "As price rises, supply shifts left", "As price falls, quantity supplied rises", "As demand rises, supply must rise"], a: 0, tag: "supply", type: "definition", objective: "LO4.3", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "law_of_supply", secondarySkills: ["movement_vs_supply_shift"], repairSkill: "law_of_supply", commonError: "confuses_supply_with_demand_direction", feedback: "The law of supply says price and quantity supplied move in the same direction." },
+  { id: 3006, q: "Checkpoint 2 turns to the sellers: 'Higher prices pull more goods onto the floor.' What does the law of supply say?", options: ["As price rises, quantity supplied rises", "As price rises, supply shifts left", "As price falls, quantity supplied rises", "As demand rises, supply must rise"], a: 0, tag: "supply", type: "definition", objective: "LO4.3", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "law_of_supply", secondarySkills: ["movement_vs_supply_shift"], repairSkill: "law_of_supply", commonError: "confuses_supply_with_demand_direction", feedback: "The law of supply says price and quantity supplied move in the same direction." },
   { id: 3007, q: "The price of handmade tables rises, and sellers offer more tables for sale. What is the most precise statement?", options: ["Quantity supplied increases", "Supply increases", "Demand increases", "Supply shifts right"], a: 0, tag: "supply", type: "interpretation", objective: "LO4.3", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "movement_vs_supply_shift", secondarySkills: ["law_of_supply"], repairSkill: "movement_vs_supply_shift", commonError: "treats_own_price_change_as_supply_shift", feedback: "A change in the good's own price causes movement along the supply curve, so quantity supplied changes." },
-  { id: 3008, q: "The Broker springs the supply trap: steel becomes more expensive for car producers. What happens in the car market?", options: ["Supply decreases", "Quantity supplied increases because car price changed", "Demand decreases", "Supply increases"], a: 0, tag: "supply", type: "trap", objective: "LO4.3", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "supply_shifters_input_costs", secondarySkills: ["movement_vs_supply_shift"], repairSkill: "supply_shifters", commonError: "gets_input_cost_effect_backwards", feedback: "Higher input costs make production more expensive, so supply decreases." },
+  { id: 3008, q: "Checkpoint 2 springs the supply trap: steel becomes more expensive for car producers. What happens in the car market?", options: ["Supply decreases", "Quantity supplied increases because car price changed", "Demand decreases", "Supply increases"], a: 0, tag: "supply", type: "trap", objective: "LO4.3", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "supply_shifters_input_costs", secondarySkills: ["movement_vs_supply_shift"], repairSkill: "supply_shifters", commonError: "gets_input_cost_effect_backwards", feedback: "Higher input costs make production more expensive, so supply decreases." },
 
   // --- EQUILIBRIUM ---
-  { id: 3009, q: "The Broker marks the crossing point: 'Here, neither side is pushing.' What is market equilibrium?", options: ["The point where quantity demanded equals quantity supplied", "The highest possible price buyers will pay", "The lowest possible quantity sellers will offer", "Any price set by government"], a: 0, tag: "equilibrium", type: "definition", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "equilibrium_definition", secondarySkills: ["surplus_shortage_identification"], repairSkill: "equilibrium_definition", commonError: "confuses_equilibrium_with_highest_price", feedback: "Market equilibrium occurs where quantity demanded equals quantity supplied." },
+  { id: 3009, q: "Checkpoint 2 marks the crossing point: 'Here, neither side is pushing.' What is market equilibrium?", options: ["The point where quantity demanded equals quantity supplied", "The highest possible price buyers will pay", "The lowest possible quantity sellers will offer", "Any price set by government"], a: 0, tag: "equilibrium", type: "definition", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "equilibrium_definition", secondarySkills: ["surplus_shortage_identification"], repairSkill: "equilibrium_definition", commonError: "confuses_equilibrium_with_highest_price", feedback: "Market equilibrium occurs where quantity demanded equals quantity supplied." },
   { id: 3010, q: "Demand increases while supply stays the same. What happens to equilibrium price and quantity?", options: ["Price rises and quantity rises", "Price falls and quantity falls", "Price rises and quantity falls", "Price falls and quantity rises"], a: 0, tag: "equilibrium", type: "interpretation", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "demand_shift_equilibrium_prediction", secondarySkills: ["market_change_prediction"], repairSkill: "equilibrium_prediction", commonError: "gets_demand_increase_effect_backwards", feedback: "An increase in demand raises both equilibrium price and equilibrium quantity." },
-  { id: 3011, q: "The Broker's trap: demand increases and supply decreases at the same time. What can be predicted with certainty?", options: ["Equilibrium price rises", "Equilibrium quantity rises", "Equilibrium quantity falls", "Equilibrium price falls"], a: 0, tag: "equilibrium", type: "trap", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "double_shift_ambiguous_quantity", secondarySkills: ["demand_increase_supply_decrease"], repairSkill: "equilibrium_prediction", commonError: "claims_quantity_change_is_certain_in_opposing_shifts", feedback: "Demand rising and supply falling both push price up, but quantity depends on which shift is stronger." },
+  { id: 3011, q: "Checkpoint 2's trap: demand increases and supply decreases at the same time. What can be predicted with certainty?", options: ["Equilibrium price rises", "Equilibrium quantity rises", "Equilibrium quantity falls", "Equilibrium price falls"], a: 0, tag: "equilibrium", type: "trap", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "double_shift_ambiguous_quantity", secondarySkills: ["demand_increase_supply_decrease"], repairSkill: "equilibrium_prediction", commonError: "claims_quantity_change_is_certain_in_opposing_shifts", feedback: "Demand rising and supply falling both push price up, but quantity depends on which shift is stronger." },
 
   // --- SHORTAGES AND SURPLUSES ---
-  { id: 3012, q: "The Broker watches inventories pile up. What is a surplus?", options: ["A situation where quantity supplied exceeds quantity demanded", "A situation where quantity demanded exceeds quantity supplied", "A point outside the PPF", "A legal maximum price"], a: 0, tag: "surplus_shortage", type: "definition", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "surplus_identification", secondarySkills: ["equilibrium_definition"], repairSkill: "surplus_shortage_identification", commonError: "reverses_surplus_and_shortage", feedback: "A surplus exists when quantity supplied is greater than quantity demanded." },
+  { id: 3012, q: "Checkpoint 2 watches inventories pile up. What is a surplus?", options: ["A situation where quantity supplied exceeds quantity demanded", "A situation where quantity demanded exceeds quantity supplied", "A point outside the PPF", "A legal maximum price"], a: 0, tag: "surplus_shortage", type: "definition", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "surplus_identification", secondarySkills: ["equilibrium_definition"], repairSkill: "surplus_shortage_identification", commonError: "reverses_surplus_and_shortage", feedback: "A surplus exists when quantity supplied is greater than quantity demanded." },
   { id: 3013, q: "At the current price, buyers want 180 units and sellers offer 120 units. What exists, and what pressure follows?", options: ["A shortage; price tends to rise", "A surplus; price tends to fall", "A shortage; price tends to fall", "A surplus; price tends to rise"], a: 0, tag: "surplus_shortage", type: "interpretation", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "shortage_price_pressure", secondarySkills: ["surplus_shortage_calculation"], repairSkill: "surplus_shortage_identification", commonError: "reverses_shortage_and_price_pressure", feedback: "Quantity demanded exceeds quantity supplied, so there is a shortage. Shortages push price upward." },
-  { id: 3014, q: "The Broker sets the trap: price is above equilibrium. Which result is most likely in an unregulated market?", options: ["A surplus creates downward pressure on price", "A shortage creates upward pressure on price", "Demand must increase immediately", "Supply must disappear"], a: 0, tag: "surplus_shortage", type: "trap", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "surplus_price_pressure", secondarySkills: ["surplus_identification"], repairSkill: "surplus_shortage_identification", commonError: "gets_surplus_price_pressure_backwards", feedback: "A price above equilibrium creates a surplus, and sellers respond by lowering price." },
+  { id: 3014, q: "Checkpoint 2 sets the trap: price is above equilibrium. Which result is most likely in an unregulated market?", options: ["A surplus creates downward pressure on price", "A shortage creates upward pressure on price", "Demand must increase immediately", "Supply must disappear"], a: 0, tag: "surplus_shortage", type: "trap", objective: "LO4.4", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "surplus_price_pressure", secondarySkills: ["surplus_identification"], repairSkill: "surplus_shortage_identification", commonError: "gets_surplus_price_pressure_backwards", feedback: "A price above equilibrium creates a surplus, and sellers respond by lowering price." },
 
   // --- PRICE SIGNALS ---
-  { id: 3015, q: "The Broker says: 'Prices speak when no one gives orders.' What role do prices play in a market economy?", options: ["They signal scarcity and help allocate resources", "They eliminate scarcity completely", "They prevent all shortages forever", "They remove opportunity cost"], a: 0, tag: "price_signal", type: "definition", objective: "LO4.5", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "price_signal_allocation", secondarySkills: ["market_allocation_definition"], repairSkill: "price_signal_allocation", commonError: "thinks_prices_only_transfer_money", feedback: "Prices send signals to buyers and sellers about scarcity, value, and incentives." },
+  { id: 3015, q: "Checkpoint 2 says: 'Prices speak when no one gives orders.' What role do prices play in a market economy?", options: ["They signal scarcity and help allocate resources", "They eliminate scarcity completely", "They prevent all shortages forever", "They remove opportunity cost"], a: 0, tag: "price_signal", type: "definition", objective: "LO4.5", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "price_signal_allocation", secondarySkills: ["market_allocation_definition"], repairSkill: "price_signal_allocation", commonError: "thinks_prices_only_transfer_money", feedback: "Prices send signals to buyers and sellers about scarcity, value, and incentives." },
   { id: 3016, q: "A resource becomes scarce, and its price rises. How do buyers and sellers usually respond?", options: ["Buyers buy less while sellers try to supply more", "Buyers buy more while sellers supply less", "Both buyers and sellers ignore the signal", "Demand and supply both disappear"], a: 0, tag: "price_signal", type: "interpretation", objective: "LO4.5", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "buyer_seller_response_to_price_signal", secondarySkills: ["law_of_demand", "law_of_supply"], repairSkill: "price_signal_allocation", commonError: "confuses_buyer_response_with_seller_response", feedback: "Higher prices encourage buyers to conserve and sellers to produce more." },
-  { id: 3017, q: "The Broker gives the final trap: a high price by itself means the market has failed. What is wrong with that claim?", options: ["A high price can be a scarcity signal, not automatically a market failure", "High prices always prove demand disappeared", "High prices always mean a price ceiling is binding", "High prices eliminate the need for supply"], a: 0, tag: "price_signal", type: "trap", objective: "LO4.5", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "price_signal_interpretation", secondarySkills: ["market_failure_identification"], repairSkill: "price_signal_allocation", commonError: "treats_high_price_as_market_failure_by_itself", feedback: "A high price may simply signal scarcity and guide buyers and sellers. It is not automatically a market failure." }
+  { id: 3017, q: "Checkpoint 2 gives the final trap: a high price by itself means the market has failed. What is wrong with that claim?", options: ["A high price can be a scarcity signal, not automatically a market failure", "High prices always prove demand disappeared", "High prices always mean a price ceiling is binding", "High prices eliminate the need for supply"], a: 0, tag: "price_signal", type: "trap", objective: "LO4.5", difficulty: "mediumBoss", conceptCluster: "supply_demand", primarySkill: "price_signal_interpretation", secondarySkills: ["market_failure_identification"], repairSkill: "price_signal_allocation", commonError: "treats_high_price_as_market_failure_by_itself", feedback: "A high price may simply signal scarcity and guide buyers and sellers. It is not automatically a market failure." }
 ],
    
 finalBoss: [
 { id: 4000, q: "A city sets a price ceiling below equilibrium to make apartments affordable. The legal rent falls, but renters wait longer, landlords reduce maintenance, and some units are rented off-book. What is the strongest economic conclusion?", options: ["The posted price falls, but shortage shifts part of the cost into waiting, quality loss, and rationing", "The posted price falls, so the policy removes the main cost renters face in the market", "The posted price falls, but the shortage means sellers now compete harder for renters", "The posted price falls, so the market clears through a lower equilibrium rent"], a: 0, tag: "price_ceiling", type: "synthesis", objective: "LO6.1", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "ceiling_unintended_consequences", secondarySkills: ["shortage", "nonmoney_rationing", "misallocation"], repairSkill: "binding_price_ceiling", commonError: "focuses_only_on_lower_legal_price", feedback: "A binding ceiling can lower the posted price while creating shortage, search costs, lower quality, rationing, and misallocation." },
 { id: 4001, q: "A city sets a price ceiling below equilibrium to make apartments affordable. The legal rent falls, but renters wait longer, landlords reduce maintenance, and some units are rented off-book. What is the strongest economic conclusion?", options: ["The posted money price falls, but shortage creates nonmoney costs and misallocation", "The policy eliminates scarcity because rent is lower", "The policy creates a surplus because renters want fewer apartments", "The policy is nonbinding because people still pay with time"], a: 0, tag: "price_ceiling", type: "synthesis", objective: "LO6.1", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "ceiling_unintended_consequences", secondarySkills: ["shortage", "nonmoney_rationing", "misallocation"], repairSkill: "binding_price_ceiling", commonError: "focuses_only_on_lower_legal_price", feedback: "A binding ceiling can lower the posted price while creating shortage, search costs, lower quality, rationing, and misallocation." },
 { id: 4002, q: "A price ceiling is set at $40. The equilibrium price is $35. At $40, quantity supplied equals quantity demanded. What happens in the market?", options: ["The ceiling is nonbinding and the market remains at equilibrium", "The ceiling is binding and creates a shortage", "The ceiling is binding and creates a surplus", "The ceiling forces quantity supplied below quantity demanded"], a: 0, tag: "price_ceiling", type: "trap", objective: "LO6.1", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "nonbinding_price_ceiling", secondarySkills: ["binding_policy", "equilibrium"], repairSkill: "binding_price_ceiling", commonError: "thinks_all_price_ceilings_bind", feedback: "A ceiling only binds if it is below equilibrium. A ceiling above equilibrium does not change the market outcome." },
-{ id: 4003, q: "The Magistrate sets a minimum wage at $16 when the equilibrium wage is $12. At $16, firms demand 70,000 workers and 110,000 workers want jobs. What is the best diagnosis?", options: ["The floor is binding and creates a labor surplus of 40,000 workers", "The floor is binding and creates a labor shortage of 40,000 workers", "The floor is nonbinding because workers prefer higher wages", "The floor increases labor demand by 40,000 workers"], a: 0, tag: "price_floor", type: "multi-step", objective: "LO6.2", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "binding_floor_surplus_calculation", secondarySkills: ["minimum_wage", "labor_surplus", "unemployment"], repairSkill: "binding_price_floor", commonError: "confuses_labor_surplus_with_shortage", feedback: "A price floor above equilibrium is binding. Labor surplus equals quantity supplied minus quantity demanded, so 110,000 - 70,000 = 40,000 workers." },
+{ id: 4003, q: "The final checkpoint sets a minimum wage at $16 when the equilibrium wage is $12. At $16, firms demand 70,000 workers and 110,000 workers want jobs. What is the best diagnosis?", options: ["The floor is binding and creates a labor surplus of 40,000 workers", "The floor is binding and creates a labor shortage of 40,000 workers", "The floor is nonbinding because workers prefer higher wages", "The floor increases labor demand by 40,000 workers"], a: 0, tag: "price_floor", type: "multi-step", objective: "LO6.2", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "binding_floor_surplus_calculation", secondarySkills: ["minimum_wage", "labor_surplus", "unemployment"], repairSkill: "binding_price_floor", commonError: "confuses_labor_surplus_with_shortage", feedback: "A price floor above equilibrium is binding. Labor surplus equals quantity supplied minus quantity demanded, so 110,000 - 70,000 = 40,000 workers." },
 { id: 4004, q: "A minimum wage raises pay for workers who keep their jobs, but firms hire fewer workers and more workers seek jobs. Which statement gives the best economic interpretation?", options: ["The policy helps some employed workers, but it also creates a labor surplus among workers seeking jobs", "The policy helps workers as a group because the higher wage applies to anyone willing to work", "The policy helps firms attract more workers, so labor demand rises with the legal wage", "The policy leaves employment unchanged because only the legal wage has changed"], a: 0, tag: "price_floor", type: "synthesis", objective: "LO6.2", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "minimum_wage_tradeoff", secondarySkills: ["policy_tradeoff", "labor_surplus", "quantity_demanded_labor"], repairSkill: "binding_price_floor", commonError: "counts_only_workers_who_keep_jobs", feedback: "A binding minimum wage creates winners and losers. Some employed workers earn more, but firms hire fewer workers and a labor surplus appears." },
 { id: 4005, q: "A price floor is set at $18 when the equilibrium price is $22. What is the most likely result?", options: ["The floor is nonbinding and the market stays at equilibrium", "The floor is binding and creates a surplus", "The floor is binding and creates a shortage", "The floor lowers quantity supplied below quantity demanded"], a: 0, tag: "price_floor", type: "trap", objective: "LO6.2", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "nonbinding_price_floor", secondarySkills: ["binding_policy", "equilibrium"], repairSkill: "binding_price_floor", commonError: "thinks_all_price_floors_bind", feedback: "A floor only binds if it is above equilibrium. A floor below equilibrium does not change the market outcome." },
 { id: 4006, q: "A $6 tax is placed on a good. Before the tax, equilibrium price is $20 and quantity is 1,000. After the tax, buyers pay $24, sellers receive $18, and quantity falls to 850. What is the tax wedge?", options: ["$6", "$4", "$2", "$24"], a: 0, tag: "tax", type: "calculation", objective: "LO6.3", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "tax_wedge_calculation", secondarySkills: ["buyer_price", "seller_price", "tax_effects"], repairSkill: "tax_wedge_incidence", commonError: "uses_only_buyer_price_change", feedback: "The tax wedge is the difference between what buyers pay and sellers receive. $24 - $18 = $6." },
@@ -5000,7 +5026,7 @@ finalBoss: [
 { id: 4014, q: "A binding price floor raises the legal price from $30 to $45. At $45, sellers offer 900 units and buyers want 600 units. Which outcome is most likely?", options: ["A surplus of 300 units and extra effort by sellers to unload the good", "A shortage of 300 units and long lines for buyers", "No surplus because sellers prefer the higher price", "A demand increase because the higher price signals quality"], a: 0, tag: "price_floor", type: "multi-step", objective: "LO6.2", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "floor_surplus_rationing", secondarySkills: ["surplus_calculation", "seller_competition"], repairSkill: "binding_price_floor", commonError: "ignores_quantity_demanded_response", feedback: "At the floor, quantity supplied exceeds quantity demanded by 300 units. Sellers compete to find buyers, often through nonprice margins." },
 { id: 4015, q: "A policy lowers the legal price, creates a shortage, reduces product quality, and causes buyers to spend time searching. Which policy best matches this pattern?", options: ["A binding price ceiling", "A binding price floor", "A nonbinding price floor", "A seller tax with perfectly elastic demand"], a: 0, tag: "price_ceiling", type: "integration", objective: "LO6.1", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "identify_policy_from_outcomes", secondarySkills: ["shortage", "quality_decline", "search_costs"], repairSkill: "binding_price_ceiling", commonError: "misidentifies_shortage_policy", feedback: "Lower legal price plus shortage and search costs points to a binding price ceiling." },
 { id: 4016, q: "A policy raises the legal price, creates unsold output, and benefits some sellers while making buyers purchase less. Which policy best matches this pattern?", options: ["A binding price floor", "A binding price ceiling", "A nonbinding price ceiling", "A buyer tax that leaves quantity unchanged"], a: 0, tag: "price_floor", type: "integration", objective: "LO6.2", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "identify_floor_from_outcomes", secondarySkills: ["surplus", "quantity_demanded", "policy_tradeoff"], repairSkill: "binding_price_floor", commonError: "misidentifies_surplus_policy", feedback: "Higher legal price plus unsold output points to a binding price floor." },
-{ id: 4017, q: "The Magistrate compares two policies. Policy A is a binding price ceiling that creates a shortage. Policy B is a tax that creates a wedge between buyer price and seller price. What do both policies have in common?", options: ["Both can reduce the quantity traded below the unregulated market equilibrium", "Both can raise the posted price buyers pay above the original equilibrium price", "Both can create excess supply at the legal market price", "Both can leave the market efficient if the legal price is clearly stated"], a: 0, tag: "government_policy", type: "integration", objective: "LO6.3", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "policy_comparison_quantity_effects", secondarySkills: ["price_ceiling", "tax_wedge", "quantity_traded"], repairSkill: "government_policy_effects", commonError: "focuses_only_on_price_not_quantity", feedback: "Binding ceilings and taxes work differently, but both can reduce the quantity traded below the unregulated equilibrium." }
+{ id: 4017, q: "The final checkpoint compares two policies. Policy A is a binding price ceiling that creates a shortage. Policy B is a tax that creates a wedge between buyer price and seller price. What do both policies have in common?", options: ["Both can reduce the quantity traded below the unregulated market equilibrium", "Both can raise the posted price buyers pay above the original equilibrium price", "Both can create excess supply at the legal market price", "Both can leave the market efficient if the legal price is clearly stated"], a: 0, tag: "government_policy", type: "integration", objective: "LO6.3", difficulty: "finalBoss", conceptCluster: "government_policy", primarySkill: "policy_comparison_quantity_effects", secondarySkills: ["price_ceiling", "tax_wedge", "quantity_traded"], repairSkill: "government_policy_effects", commonError: "focuses_only_on_price_not_quantity", feedback: "Binding ceilings and taxes work differently, but both can reduce the quantity traded below the unregulated equilibrium." }
 ],
    
 easy: [
@@ -5706,7 +5732,7 @@ function randomQuestion(poolName) {
 // What you MUST NOT change:
 // - Loop range (1 → 30) → controls total rooms
 // - "room" variable usage → tracks player position
-// - Boss room numbers (10, 20, 30) unless you update ALL logic elsewhere
+// - Checkpoint room numbers (10, 20, 30) unless you update ALL logic elsewhere
 //
 // If you change boss room numbers here but NOT in:
 // - loadQuestion()
@@ -5737,7 +5763,7 @@ function updateMazeTrack() {
             box.setAttribute("aria-label",`Current room ${i} of 30`);
             box.innerText = "🟦";
         } else {
-            // Boss icons for future rooms
+            // Checkpoint icons for future rooms
             if (i === 10){box.innerHTML = '◆';box.classList.add("boss10");}
             else if (i === 20){box.innerHTML = '◆';box.classList.add("boss20");}
             else if (i === 30){box.innerHTML = '★';box.classList.add("boss30");}
@@ -5904,7 +5930,7 @@ document.addEventListener("keydown", function(event){
 // =============================================
 // Controls:
 // - what question appears
-// - boss encounters
+// - mastery checkpoints
 // - difficulty scaling
 // - UI updates
 //
@@ -6043,23 +6069,23 @@ if (isBoss) {
         imageBox.style.display = "none";
     }
 
-    // 3. Boss Identity UI — Market Gate
-    let bTitle = room === 10 ? "THE FRONTIER KEEPER"
-        : room === 20 ? "THE SIGNAL BROKER"
-        : "THE PRICE MAGISTRATE";
+    // 3. Mastery checkpoint identity UI.
+    let bTitle = room === 10 ? "MASTERY CHECKPOINT 1"
+        : room === 20 ? "MASTERY CHECKPOINT 2"
+        : "FINAL MASTERY CHECKPOINT";
 
     let bColor = room === 10 ? "#d7b35a"
         : room === 20 ? "#38bdf8"
         : "#f0c86a";
 
     document.getElementById("srAnnouncements").innerText =
-        `Boss encounter. ${bTitle}. Prepare yourself`;
+        `Mastery checkpoint. ${bTitle}. Three questions must be cleared.`;
 
-    bossMsg.innerText = "⚠ BOSS ENCOUNTER ⚠";
+    bossMsg.innerText = "◆ MASTERY CHECKPOINT ◆";
     bossMsg.style.color = bColor;
     gameBox.style.setProperty("--bossColor", bColor);
 
-    // Generic embedded boss emblem. Replace the symbol or CSS; no image file is required.
+    // Generic embedded checkpoint emblem. Replace the symbol or CSS; no image file is required.
     const bossSymbol = room === 10 ? "◆" : room === 20 ? "◇" : "★";
 
     questionElement.innerHTML = `
@@ -6108,7 +6134,7 @@ if(gameMode === "legendary"){
     wizardSpeak(getWizardLine(currentQuestion.type));
 
     bossMsg.innerText = (room === 9 || room === 19 || room === 29)
-        ? "⚠️ LEGENDARY BOSS DETECTED IN NEXT ROOM ⚠️"
+        ? "◆ FINAL MASTERY CHECKPOINT AHEAD ◆"
         : "";
     bossMsg.style.color = "#f97316";
 
@@ -6182,7 +6208,7 @@ if(currentQuestion.image){
 
     // --- UI ---
     bossMsg.innerText = ((gameMode === "standard" || gameMode === "legendary") && (room === 9 || room === 19 || room === 29))
-        ? (gameMode === "legendary" ? "⚠️ LEGENDARY BOSS DETECTED IN NEXT ROOM ⚠️" : "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️")
+        ? (gameMode === "legendary" ? "◆ FINAL MASTERY CHECKPOINT AHEAD ◆" : "◆ MASTERY CHECKPOINT AHEAD ◆")
         : "";
     bossMsg.style.color = "#ef4444";
 
@@ -6342,7 +6368,7 @@ if(rapidGuess.triggered && !rapidGuessLocked){
 
     sendGameData({
         runID: runID,
-        game: "Gauntlet Learning Game",
+        game: "Adaptive Review Learning Game",
         event: "rapid_guessing",
         user: username || "anonymous",
         email: studentEmail || "",
@@ -6408,7 +6434,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
     // =============================================
     sendGameData({
         runID: runID,
-		game: "Gauntlet Learning Game",
+		game: "Adaptive Review Learning Game",
         event: "question",
         user: username || "anonymous",
 		email: studentEmail || "",
@@ -6556,7 +6582,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
 		});
 
 		msgElement.innerHTML =
-		  `<span style='color:#f87171;font-weight:bold;'>⚔ HIT! Boss Health: ${bossHealth}/3</span><br>
+		  `<span style='color:#f7d982;font-weight:bold;'>Checkpoint Progress: ${3 - bossHealth}/3 cleared</span><br>
    			<span class='fade-out-text'>${bossLine}</span>`;
 
 		triggerBossShake();
@@ -6570,7 +6596,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
 		 recordBossDefeatForAchievements();
          sendGameData({
             runID: runID,
-			game: "Gauntlet Learning Game",
+			game: "Adaptive Review Learning Game",
             event: "boss_defeated",
             user: username,
 		    email: studentEmail,
@@ -6714,7 +6740,7 @@ if (gameMode !== "legendary" && !remediationState.active && currentQuestion.tag 
         const remediationMessage = remediationState.careless
             ? "You rushed the choice. Slow down and regain control."
             : remediationState.slowStruggle
-                ? "The Gate doesn't budge. Rebuild the concept before advancing."
+                ? "The checkpoint remains uncleared. Rebuild the concept before advancing."
                 : "Your control fractured. Repair the weakness before moving on.";
 
         msgElement.innerHTML =
@@ -6975,25 +7001,25 @@ function showKnowledgeRoom(bossRoom) {
     let summary = "";
 
 // =============================================
-// BOSS NARRATIVE CONTENT — SAFE TO EDIT
+// CHECKPOINT SUMMARY CONTENT — SAFE TO EDIT
 // =============================================
 // Each block corresponds to a boss room.
 // You can rewrite these freely to match your theme.
 //
 // Keep room numbers aligned with:
-// - actual boss encounters
+// - actual mastery checkpoints
 // =============================================    
 if (bossRoom === 10) {
-  title = "THE FRONTIER KEEPER YIELDS";
-  summary = "The Frontier Compass locks into place. Scarcity, tradeoffs, opportunity cost, and the production frontier begin to stabilize. The Gate now recognizes that every choice carries a cost.";
+  title = "MASTERY CHECKPOINT 1 CLEARED";
+  summary = "Foundation concepts have been checked. Scarcity, tradeoffs, opportunity cost, and production possibilities are ready for the next stage.";
 } 
 else if (bossRoom === 20) {
-  title = "THE SIGNAL BROKER FALLS";
-  summary = "The Signal Lens clears. Demand, supply, equilibrium, and market shifts become visible again. Prices can speak, and the Gate can read the movement of buyers and sellers.";
+  title = "MASTERY CHECKPOINT 2 CLEARED";
+  summary = "Applied market analysis has been checked. Demand, supply, equilibrium, and market shifts are ready for advanced review.";
 } 
 else if (bossRoom === 30) {
-  title = "THE PRICE MAGISTRATE DEFEATED";
-  summary = "The Magistrate's Scales settle. Price ceilings, floors, taxes, shortages, surpluses, and tax burdens have been weighed. Gauntlet Learning Game is restored.";
+  title = "FINAL MASTERY CHECKPOINT CLEARED";
+  summary = "The full review path is complete. Price controls, taxes, shortages, surpluses, and tax incidence have been assessed.";
 }
 
 // Update the UI
@@ -7004,7 +7030,7 @@ qContainer.innerHTML = `
 
 // logic to ensure Room 30 triggers the end game, while 10 and 20 trigger the next level
 let nextAction = bossRoom === 30 ? "handleVictory()" : "room++; loadQuestion();";
-let buttonLabel = bossRoom === 30 ? "RESTORE GAUNTLET LEARNING GAME →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
+let buttonLabel = bossRoom === 30 ? "COMPLETE REVIEW →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
 
 aContainer.innerHTML = `
 <button id="continueBtn" class="continue-btn">
@@ -7063,7 +7089,7 @@ function handleLegendaryVictory(){
 
     sendGameData({
         runID: runID,
-        game: "Gauntlet Learning Game",
+        game: "Adaptive Review Learning Game",
         event: "legendary_complete",
         user: username,
         email: studentEmail,
@@ -7085,11 +7111,11 @@ function handleLegendaryVictory(){
         verificationCode: verificationCode
     });
 
-    let judgment = "You cleared Legendary Mode. That means you survived the full Market Gate with multi-step items, graph pressure, close answers, and no soft landing.";
+    let judgment = "You cleared Legendary Mode with multi-step items, graph pressure, close answers, and no soft landing.";
     if(accuracy >= 90){
         judgment = "Legendary run confirmed. You did not just recognize terms. You read the models, tracked the traps, and handled the pressure.";
     } else if(accuracy < 75){
-        judgment = "You survived Legendary Mode, but the Gate left dents. Completion counts. Mastery still needs another run.";
+        judgment = "You survived Legendary Mode, but the results show gaps. Completion counts. Mastery still needs another run.";
     }
 
     document.getElementById("bossMessage").innerText = "";
@@ -7112,7 +7138,7 @@ function handleLegendaryVictory(){
 
     document.getElementById("answers").innerHTML = `
         <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Battle</button>
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Mode</button>
     `;
 
     document.getElementById("message").innerText = "Legendary completion saved separately. Standard realm progress was not changed.";
@@ -7137,7 +7163,7 @@ function handleScoreAttackVictory(){
 
     sendGameData({
         runID: runID,
-        game: "Gauntlet Learning Game",
+        game: "Adaptive Review Learning Game",
         event: "score_complete",
         user: username,
         email: studentEmail,
@@ -7161,9 +7187,9 @@ function handleScoreAttackVictory(){
         scoreEvents: JSON.stringify(scoreAttackEvents)
     });
 
-    let scoreLine = "Respectable. The Gate noticed.";
+    let scoreLine = "Respectable. The scoreboard noticed.";
     if(scoreAttackScore >= 9250){
-        scoreLine = "Maximum score. Clean run. No wasted motion. The Gate can shut up now.";
+        scoreLine = "Maximum score. Clean run. No wasted motion.";
     } else if(scoreAttackScore >= 8000){
         scoreLine = "Elite scoring run. Fast, accurate, and mean.";
     } else if(scoreAttackScore < 4000){
@@ -7192,7 +7218,7 @@ function handleScoreAttackVictory(){
     document.getElementById("answers").innerHTML = `
         <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
         <button class="continue-btn" onclick="restartScoreAttackMode()">Retry Score Attack</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Battle</button>
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Mode</button>
     `;
 
     document.getElementById("message").innerText = "Score saved locally. Standard campaign progress was not changed.";
@@ -7217,7 +7243,7 @@ function handlePracticeModeComplete(){
 
     sendGameData({
         runID: runID,
-        game: "Gauntlet Learning Game",
+        game: "Adaptive Review Learning Game",
         event: `${gameMode}_complete`,
         user: username,
         email: studentEmail,
@@ -7256,7 +7282,7 @@ function handlePracticeModeComplete(){
 
     document.getElementById("answers").innerHTML = `
         <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Battle</button>
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Mode</button>
     `;
 
     document.getElementById("message").innerText = "Practice complete. The campaign record was not changed.";
@@ -7373,7 +7399,7 @@ function handleVictory() {
 
 sendGameData({
     runID: runID,
-	game: "Gauntlet Learning Game",
+	game: "Adaptive Review Learning Game",
     event: "complete",
     user: username,
 	email: studentEmail,
@@ -7409,13 +7435,13 @@ sendGameData({
 // =============================================
 let archivistLine = "";
 if(accuracy >= 90){
-    archivistLine = "You have mastered the Market Gate. Tradeoffs, signals, and market forces move clearly before you.";
+    archivistLine = "You demonstrated strong mastery across the review. Tradeoffs, market signals, and policy effects are moving clearly.";
 }
 else if(accuracy >= 75){
     archivistLine = "You read the market well enough to advance. But opportunity cost, shifting curves, and policy distortions can still catch you slipping.";
 }
 else{
-    archivistLine = "You survived the Market Gate. Barely. The market gave you answers, and you tried to bargain with them. Bad move.";
+    archivistLine = "You finished the review. Barely. The questions gave you evidence, and you tried to bargain with it. Bad move.";
 }
 
 let lineColor = "#38bdf8"; // market blue
@@ -7444,11 +7470,11 @@ else if(accuracy < 75){
    gameBox.innerHTML = `
     <div style="text-align:center; padding:30px;">
         <h1 class="victory" style="color:#f0c86a; text-shadow:0 0 18px rgba(240,200,106,0.9), 0 0 34px rgba(56,189,248,0.35); letter-spacing:2px;">
-            GATE OPENED
+            REVIEW COMPLETE
         </h1>
 
         <div style="margin:20px 0; padding:16px; background:rgba(5,10,18,0.82); border-radius:10px; border:1px solid rgba(240,200,106,0.35); box-shadow:0 0 24px rgba(0,0,0,0.65), inset 0 0 22px rgba(56,189,248,0.08);">
-            <p>Market Record: <strong>${username}</strong></p>
+            <p>Review Record: <strong>${username}</strong></p>
             <p>Accuracy: <strong>${accuracy}%</strong> | Best Streak: <strong>${maxStreak}</strong></p>
             <p>Elapsed Time: <strong>${timeString}</strong> | Total Questions: <strong>${totalAttempts}</strong></p>
             <p style="font-size:0.8em; color:#9ca3af;">Verification Code: <span id="vCode" style="color:#f0c86a;">${verificationCode}</span></p>
@@ -7466,7 +7492,7 @@ else if(accuracy < 75){
                 View Mastery Report
             </button>
             <button onclick="location.reload()" style="background:transparent; color:#e5e7eb; border:1px solid rgba(229,231,235,0.55); padding:12px 24px; border-radius:6px; cursor:pointer;">
-                Play The Gate Again
+                Play Again
             </button>
         </div>
     </div>
@@ -7485,7 +7511,7 @@ else if(accuracy < 75){
 
 
 // =============================================
-// POST-BATTLE MASTERY REPORT
+// POST-RUN MASTERY REPORT
 // Student-facing diagnostic built from masteryState.
 // Uses existing tag, objective, skill, type, accuracy, and response-time data.
 // No answer keys. No question IDs. No nonsense.
@@ -7784,15 +7810,15 @@ function getMasteryReportData(){
     let verdict = "The Custodian found enough signal to build a report. Use it. Ignoring it would be malpractice with extra steps.";
 
     if(totalAttempts < 5){
-        verdict = "The report is limited because this run has very few attempts. The Gate needs more evidence before it can judge mastery with confidence.";
+        verdict = "The report is limited because this run has very few attempts. The system needs more evidence before it can judge mastery with confidence.";
     } else if(noMajorWeakness){
-        verdict = "No major weakness detected. That does not mean the Gate is done with you. It means the next useful signal comes from harder pressure: Legendary Mode first, Score Attack after that.";
+        verdict = "No major weakness detected. That does not mean the review is done with you. It means the next useful signal comes from harder pressure: Legendary Mode first, Score Attack after that.";
     } else if(accuracy >= 0.90){
-        verdict = "Strong command. You cleared the Gate with high accuracy. The weak signals below show where the next pressure test should focus.";
+        verdict = "Strong command. You completed the review with high accuracy. The weak signals below show where the next pressure test should focus.";
     } else if(accuracy >= 0.75){
-        verdict = "Battle-ready, but not bulletproof. The weak areas below are where points will leak on an exam.";
+        verdict = "Review-ready, but not bulletproof. The weak areas below are where points will leak on an exam.";
     } else {
-        verdict = "Unstable command. You finished, but the Gate exposed weak signals. Hit the listed areas before chasing speed or Legendary Mode.";
+        verdict = "Unstable command. You finished, but the review exposed weak signals. Hit the listed areas before chasing speed or Legendary Mode.";
     }
 
     const nextSteps = [];
@@ -7863,7 +7889,7 @@ function showMasteryReportScreen(){
     gameBox.innerHTML = `
         <div id="masteryReportScreen" class="mastery-report-screen">
             <h1 class="mastery-report-title">THE CUSTODIAN'S REPORT</h1>
-            <p class="mastery-report-subtitle">Post-battle mastery readout for Gauntlet Learning Game. This is the signal behind the score.</p>
+            <p class="mastery-report-subtitle">Post-run mastery report for Adaptive Review Learning Game. This is the evidence behind the score.</p>
 
             <div class="mastery-summary-grid">
                 <div class="mastery-stat-card"><span class="mastery-stat-label">Mode</span><span class="mastery-stat-value">${escapeHTML(report.mode)}</span></div>
@@ -7942,7 +7968,7 @@ function showMasteryReportScreen(){
                 <button class="continue-btn" onclick="copyMasteryReport()">Copy Report</button>
                 ${report.noMajorWeakness && gameMode !== "legendary" ? `<button class="continue-btn" onclick="startSelectedMode('legendary')">Enter Legendary Mode</button>` : ""}
                 <button class="continue-btn secondary-modal-btn" onclick="restoreResultsScreen()">Back to Results</button>
-                <button class="continue-btn secondary-modal-btn" onclick="returnToModeSelectFromRun()">Choose Another Battle</button>
+                <button class="continue-btn secondary-modal-btn" onclick="returnToModeSelectFromRun()">Choose Another Mode</button>
             </div>
         </div>
     `;
@@ -7964,7 +7990,7 @@ function copyMasteryReport(){
     const report = getMasteryReportData();
 
     const lines = [
-        "Gauntlet Learning Game — Custodian's Mastery Report",
+        "Adaptive Review Learning Game — Custodian's Mastery Report",
         `Student: ${username}`,
         `Mode: ${report.mode}`,
         `Accuracy: ${formatPercent(report.accuracy)} (${report.correctAnswers}/${report.totalAttempts})`,
@@ -8115,14 +8141,14 @@ function copyResults() {
     const code = document.getElementById("vCode").innerText;
     const accuracy = Math.round((correctAnswers / totalAttempts) * 100);
 
-    const shareText = `Market Gate Run
+    const shareText = `Adaptive Review Learning Game Run
 Student: ${username}
 Time: ${timeString}
 Accuracy: ${accuracy}%
 Best Streak: ${maxStreak}
 Total Questions: ${totalAttempts}
 Code: ${code}
-Verified by The Chancellor`;
+Generated by Adaptive Review Learning Game`;
 
     navigator.clipboard.writeText(shareText).then(() => {
         const btn = document.getElementById("shareBtn");
